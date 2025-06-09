@@ -108,6 +108,8 @@ for all issues: Issue Key: {issue_key} Summary: {summary} Component: {component}
 ```
 Claude can then read from the SQLite backend, analyze descriptions, and generate insights.
 
+⚠️ Tip: Avoid asking for summaries of issues with restricted security levels such as Red Hat Employee only.
+
 ⸻
 
 ## 📄 License

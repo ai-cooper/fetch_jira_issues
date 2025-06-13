@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS jira_issues (
     priority TEXT,
     status TEXT,
     assignee TEXT,
+    security_level TEXT,
     created_date TEXT,
     updated_date TEXT,
     component TEXT,
@@ -56,6 +57,7 @@ try:
         priority = issue.fields.priority.name if issue.fields.priority else "Undefined"
         status = issue.fields.status.name if issue.fields.status else "Unknown"
         assignee = issue.fields.assignee.displayName if issue.fields.assignee else "Unassigned"
+        security_level = issue.fields.security.name if hasattr(issue.fields, "security") and issue.fields.security else None
         created_date = issue.fields.created
         updated_date = issue.fields.updated
         issue_type = issue.fields.issuetype.name if issue.fields.issuetype else "Unknown"
@@ -69,16 +71,18 @@ try:
         print(f'Status: {status}')
         print(f'Assignee: {assignee}')
         print(f'Components: {component_str}')
+        print(f'Security: {security_level}')
 
+	
         cursor.execute('''
             INSERT OR REPLACE INTO jira_issues 
             (issue_key, summary, description, priority, status, assignee, 
-             created_date, updated_date, component, issue_type, project, fetched_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             created_date, updated_date, component, issue_type, project, fetched_at, security_level)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             issue_key, summary, description, priority, status, assignee,
             created_date, updated_date, component_str, issue_type, project,
-            datetime.now().isoformat()
+            datetime.now().isoformat(), security_level
         ))
 
     conn.commit()

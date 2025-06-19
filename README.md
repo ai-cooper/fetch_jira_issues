@@ -63,6 +63,7 @@ CREATE TABLE jira_issues (
   priority TEXT,
   status TEXT,
   assignee TEXT,
+  security_level TEXT,
   created_date TEXT,
   updated_date TEXT,
   component TEXT,
